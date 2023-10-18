@@ -16,6 +16,7 @@ namespace QRCoder.Models
         public Bitmap Logo { get; set; } = null;
         public int LogoSizePercent { get; set; } = 15;
         public bool DrawQuietZones { get; set; } = true;
+        public int QuietZoneNumModules { get; set; } = 4;
         public Bitmap FinderPatternImage { get; set; } = null;
 
         public RenderMatrixOptions()
