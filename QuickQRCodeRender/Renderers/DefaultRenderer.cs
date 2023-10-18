@@ -60,12 +60,12 @@ namespace QRCoder.Renderers
 
             // int size = blocchiPerLato * pixelSize;
             int size = utils.TotalPixelSide;
-            Bitmap bitmap = new Bitmap(size, size);
+            Bitmap bitmapRisultato = new Bitmap(size, size);
 
             Bitmap darkModulePixel = MakeDotPixel(pixelSize, new SolidBrush(options.DarkColor));
             Bitmap lightModulePixel = MakeDotPixel(pixelSize, new SolidBrush(options.LightColor));
 
-            using (Graphics graphics = Graphics.FromImage(bitmap))
+            using (Graphics graphics = Graphics.FromImage(bitmapRisultato))
             {
                 using (SolidBrush lightBrush = new SolidBrush(options.LightColor))
                 {
@@ -99,7 +99,7 @@ namespace QRCoder.Renderers
             // adesso faccio il resize del logo 
             Bitmap logoRimensione = Resize(options.Logo, Convert.ToInt32(Math.Round((utils.LogoWhiteModulesSide * utils.ModuleSize) * 0.99f)));
             // gli disegno dentro il qr creato sopra
-            using (Graphics graphics = Graphics.FromImage(bitmap))
+            using (Graphics graphics = Graphics.FromImage(bitmapRisultato))
             {
                 graphics.DrawImage(logoRimensione, new Point(posxLogo + offsetBoxLogo, posxLogo + offsetBoxLogo));
                 graphics.Save();
@@ -120,14 +120,14 @@ namespace QRCoder.Renderers
                         graphics.FillRectangle(brush, new Rectangle(0, 0, qSize, qSize));
 
                     // gli disegno dentro il qr creato sopra
-                    graphics.DrawImage(bitmap, new Point(offset, offset));
+                    graphics.DrawImage(bitmapRisultato, new Point(offset, offset));
                     graphics.Save();
                 } // chiudo using (Graphics graphics = Graphics.FromImage(bitmapZones))                
                 // ridimensiono alla richiesta delle opzioni.
-                bitmap = Resize(bitmapZones, options.BoxSize);                
+                bitmapRisultato = Resize(bitmapZones, options.BoxSize);                
             } // chiudo if(options.DrawQuietZones)
 
-            risultato = bitmap;
+            risultato = bitmapRisultato;
 
             return risultato;
         } // chiudo public Bitmap DrawQRCode(RenderMatrix matrix, RenderMatrixOptions options)
