@@ -17,7 +17,6 @@ namespace QuickQRCodeRender.Utility
             get { return BorderNumModules * SingleModulePixel; }
         } // chiudo public int BorderPixel
 
-
         public int BorderNumModules
         {
             get { return _matrix.MatrixView.GetLength(0); }
@@ -82,6 +81,22 @@ namespace QuickQRCodeRender.Utility
                 return new Point(0 + QuietZoneOffset, BorderNumModules - 7 - QuietZoneOffset);
             }
         } // chiudo public Point FinderPositionBottom
+
+        public Bitmap LogoImage
+        {
+            get
+            {
+                return _options.Logo;
+            }
+        } // chiudo public Bitmap Logo
+
+        public Bitmap FinderPatternImage
+        {
+            get
+            {
+                return _options.FinderPatternImage;
+            }
+        } // chiudo public Bitmap Logo
 
         public RenderParametersUtility(RenderMatrix matrix, RenderMatrixOptions opts)
         {
