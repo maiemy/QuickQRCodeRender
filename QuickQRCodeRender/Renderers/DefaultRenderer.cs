@@ -15,8 +15,6 @@ namespace QRCoder.Renderers
         // disegna il QRCode
         public Bitmap DrawQRCode(RenderMatrix matrix, RenderMatrixOptions options)
         {
-            Bitmap risultato = null;
-
             RenderParametersUtility utils = new RenderParametersUtility(matrix, options);
             PathCleaner pathCleaner = new PathCleaner();
 
@@ -47,10 +45,10 @@ namespace QRCoder.Renderers
             int size = utils.BorderPixel;
             Bitmap bitmap = new Bitmap(size, size);
 
-            Bitmap darkModulePixel = MakeDotPixel(pixelSize, new SolidBrush( options.DarkColor) );
-            Bitmap lightModulePixel = MakeDotPixel(pixelSize, new SolidBrush( options.LightColor) );
+            Bitmap darkModulePixel = MakeDotPixel(pixelSize, new SolidBrush(options.DarkColor));
+            Bitmap lightModulePixel = MakeDotPixel(pixelSize, new SolidBrush(options.LightColor));
 
-            using (Graphics graphics = Graphics.FromImage(bitmap))
+            using (Graphics graphics = Graphics.FromImage(bitmapRisultato))
             {
                 using (SolidBrush lightBrush = new SolidBrush(options.LightColor))
                 {
@@ -65,7 +63,7 @@ namespace QRCoder.Renderers
                         {
                             for (var y = 0; y < blocchiPerLato; y++)
                             {
-                                Bitmap bDraw = matrixLavoro[x,y] == 1 ? darkModulePixel : lightModulePixel;
+                                Bitmap bDraw = matrixLavoro[x, y] == 1 ? darkModulePixel : lightModulePixel;
                                 graphics.DrawImage(bDraw, new Point(x * pixelSize, y * pixelSize));
                             } // chiudo for (var y = 0; y < blocchiPerLato; y++)
                         } // chiudo for (var x = 0; x < blocchiPerLato; x++)
@@ -76,10 +74,22 @@ namespace QRCoder.Renderers
             } // chiudo using (var graphics = Graphics.FromImage(bitmap))
 
             // qui inseriamo il logo
-
+            // trovo il posizionamento del logo dall'util. 
+            // ho deciso di tenere sempre un 1% di margine nello spazio del logo per staccare dal moduli del qrcode
+            int posxLogo = utils.LogoModulesOffset * utils.ModuleSize;
+            // adesso calcolo quando lasciare da questa posizione per avere un margine in px dell'1%
+            int offsetBoxLogo = Convert.ToInt32(Math.Round ( (utils.LogoWhiteModulesSide * utils.ModuleSize) * 0.01f / 2) );
+            // adesso faccio il resize del logo 
+            Bitmap logoRimensione = Resize(options.Logo, Convert.ToInt32(Math.Round((utils.LogoWhiteModulesSide * utils.ModuleSize) * 0.99f)));
+            // gli disegno dentro il qr creato sopra
+            using (Graphics graphics = Graphics.FromImage(bitmapRisultato))
+            {
+                graphics.DrawImage(logoRimensione, new Point(posxLogo + offsetBoxLogo, posxLogo + offsetBoxLogo));
+                graphics.Save();
+            } // chiudo using (Graphics graphics = Graphics.FromImage(bitmapZones))
 
             // se mi e' stato chiesto il bordo 
-            if(options.DrawQuietZones)
+            if (options.DrawQuietZones)
             {
                 // considero 4 blocchi come spazio di sicurezza                
                 int offset = 4 * pixelSize;
@@ -93,16 +103,14 @@ namespace QRCoder.Renderers
                         graphics.FillRectangle(brush, new Rectangle(0, 0, qSize, qSize));
 
                     // gli disegno dentro il qr creato sopra
-                    graphics.DrawImage(bitmap, new Point(offset, offset));
+                    graphics.DrawImage(bitmapRisultato, new Point(offset, offset));
                     graphics.Save();
                 } // chiudo using (Graphics graphics = Graphics.FromImage(bitmapZones))                
                 // ridimensiono alla richiesta delle opzioni.
-                bitmap = Resize(bitmapZones, options.BoxSize);                
+                bitmapRisultato = Resize(bitmapZones, options.BoxSize);                
             } // chiudo if(options.DrawQuietZones)
 
-            risultato = bitmap;
-
-            return risultato;
+            return bitmapRisultato;
         } // chiudo public Bitmap DrawQRCode(RenderMatrix matrix, RenderMatrixOptions options)
 
 
