@@ -1,5 +1,6 @@
 ﻿using QRCoder.Interfaces;
 using QRCoder.Models;
+using QuickQRCodeRender.Utility;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,27 +17,35 @@ namespace QRCoder.Renderers
         {
             Bitmap risultato = null;
 
-            int blocchiPerLato = matrix.MatrixView.GetLength(0);
+            RenderParametersUtility utils = new RenderParametersUtility(matrix, options);
+
+            // int blocchiPerLato = matrix.MatrixView.GetLength(0);
+            int blocchiPerLato = utils.ModulesForSide;
+
             // calcolo la dimensione in pixel per ogni blocco della matrice
-            int pixelSize = Convert.ToInt16(Math.Round( (decimal)options.BoxSize / (decimal)blocchiPerLato) );
+            // int pixelSize = Convert.ToInt16(Math.Round( (decimal)options.BoxSize / (decimal)blocchiPerLato) );
+            int pixelSize = utils.ModuleSize;
 
             // creo una matrice di lavoro.
             int[,] matrixLavoro = matrix.MatrixView;
 
             // se abbiamo il logo dobbiamo sbiancare la parte centrale del quadrato.
             if(options.Logo != null) {
-                // trasformo la dimensione del logo da px a blocchi
-                // ragiono sul lato lungo dell'immagine.
-                int logoWidth = Math.Max( options.Logo.Width, options.Logo.Height);
+                //// trasformo la dimensione del logo da px a blocchi
+                //// ragiono sul lato lungo dell'immagine.
+                //int logoWidth = Math.Max( options.Logo.Width, options.Logo.Height);
 
-                // riproporziono i blocchi alla percentuale richiesta nelle options per il logo
-                int whiteBlock = options.BoxSize * options.LogoSizePercent / 100;
-                // calcolo i blocchi
-                whiteBlock = whiteBlock / pixelSize;
+                //// riproporziono i blocchi alla percentuale richiesta nelle options per il logo
+                //int whiteBlock = options.BoxSize * options.LogoSizePercent / 100;
+                //// calcolo i blocchi
+                //whiteBlock = whiteBlock / pixelSize;
+
+                int whiteBlock = utils.LogoWhiteModulesSide;
 
                 // adesso sbianco nella matrice
                 // calcolo la posizione X del quadrato "bianco".
-                int x = Convert.ToInt32(Math.Round( (blocchiPerLato - whiteBlock) / 2d ));                
+                //int x = Convert.ToInt32(Math.Round( (blocchiPerLato - whiteBlock) / 2d ));
+                int x = utils.LogoModulesOffset;
 
                 for( int i = 0; i < whiteBlock; i++ )
                 {
@@ -49,7 +58,8 @@ namespace QRCoder.Renderers
             } // chiudo if(options.Logo != null) { 
 
             
-            var size = blocchiPerLato * pixelSize;
+            // int size = blocchiPerLato * pixelSize;
+            int size = utils.TotalPixelSide;
             Bitmap bitmap = new Bitmap(size, size);
 
             Bitmap darkModulePixel = MakeDotPixel(pixelSize, new SolidBrush( options.DarkColor) );

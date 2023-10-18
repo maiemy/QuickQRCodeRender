@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QRCoder\QRCoder.csproj" />
+    <ProjectReference Include="..\QuickQRCodeRender\QuickQRCodeRender.csproj" />
   </ItemGroup>
 
 </Project>

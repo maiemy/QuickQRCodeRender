@@ -8,7 +8,7 @@ namespace QRCoder.Models
 {
     public class RenderMatrix
     {
-
+        private QRCodeData _qrData;
         IConvertToMatrixView _converterView = null;
         int[,] _matrixView = null;
 
@@ -21,8 +21,7 @@ namespace QRCoder.Models
                     _matrixView = _converterView.ToMatrixView(_qrData);
                 return _matrixView;
             }
-        }
-        private QRCodeData _qrData;
+        }        
 
         // Una volta istanziata la classe non e' possibile modificare i dati passati nel costruttore.
         public RenderMatrix(QRCodeData qrData, IConvertToMatrixView converterMatrix = null)
