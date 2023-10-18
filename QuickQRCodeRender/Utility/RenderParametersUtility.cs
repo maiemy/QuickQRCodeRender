@@ -13,7 +13,7 @@ namespace QuickQRCodeRender.Utility
 
         public int TotalPixelSide
         {
-            get { return ModuleSize * ModuleSize; }
+            get { return ModulesForSide * ModuleSize; }
         } // chiudo public int BlocchiPerLato
 
 

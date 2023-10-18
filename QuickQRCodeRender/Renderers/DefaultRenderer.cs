@@ -30,7 +30,7 @@ namespace QRCoder.Renderers
             int[,] matrixLavoro = matrix.MatrixView;
 
             // se abbiamo il logo dobbiamo sbiancare la parte centrale del quadrato.
-            if(options.Logo != null) {
+            if (options.Logo != null) {
                 //// trasformo la dimensione del logo da px a blocchi
                 //// ragiono sul lato lungo dell'immagine.
                 //int logoWidth = Math.Max( options.Logo.Width, options.Logo.Height);
@@ -47,7 +47,7 @@ namespace QRCoder.Renderers
                 //int x = Convert.ToInt32(Math.Round( (blocchiPerLato - whiteBlock) / 2d ));
                 int x = utils.LogoModulesOffset;
 
-                for( int i = 0; i < whiteBlock; i++ )
+                for (int i = 0; i < whiteBlock; i++)
                 {
                     for (int j = 0; j < whiteBlock; j++)
                     {
@@ -57,13 +57,13 @@ namespace QRCoder.Renderers
 
             } // chiudo if(options.Logo != null) { 
 
-            
+
             // int size = blocchiPerLato * pixelSize;
             int size = utils.TotalPixelSide;
             Bitmap bitmap = new Bitmap(size, size);
 
-            Bitmap darkModulePixel = MakeDotPixel(pixelSize, new SolidBrush( options.DarkColor) );
-            Bitmap lightModulePixel = MakeDotPixel(pixelSize, new SolidBrush( options.LightColor) );
+            Bitmap darkModulePixel = MakeDotPixel(pixelSize, new SolidBrush(options.DarkColor));
+            Bitmap lightModulePixel = MakeDotPixel(pixelSize, new SolidBrush(options.LightColor));
 
             using (Graphics graphics = Graphics.FromImage(bitmap))
             {
@@ -80,7 +80,7 @@ namespace QRCoder.Renderers
                         {
                             for (var y = 0; y < blocchiPerLato; y++)
                             {
-                                Bitmap bDraw = matrixLavoro[x,y] == 1 ? darkModulePixel : lightModulePixel;
+                                Bitmap bDraw = matrixLavoro[x, y] == 1 ? darkModulePixel : lightModulePixel;
                                 graphics.DrawImage(bDraw, new Point(x * pixelSize, y * pixelSize));
                             } // chiudo for (var y = 0; y < blocchiPerLato; y++)
                         } // chiudo for (var x = 0; x < blocchiPerLato; x++)
@@ -91,10 +91,22 @@ namespace QRCoder.Renderers
             } // chiudo using (var graphics = Graphics.FromImage(bitmap))
 
             // qui inseriamo il logo
-
+            // trovo il posizionamento del logo dall'util. 
+            // ho deciso di tenere sempre un 1% di margine nello spazio del logo per staccare dal moduli del qrcode
+            int posxLogo = utils.LogoModulesOffset * utils.ModuleSize;
+            // adesso calcolo quando lasciare da questa posizione per avere un margine in px dell'1%
+            int offsetBoxLogo = Convert.ToInt32(Math.Round ( (utils.LogoWhiteModulesSide * utils.ModuleSize) * 0.01f / 2) );
+            // adesso faccio il resize del logo 
+            Bitmap logoRimensione = Resize(options.Logo, Convert.ToInt32(Math.Round((utils.LogoWhiteModulesSide * utils.ModuleSize) * 0.99f)));
+            // gli disegno dentro il qr creato sopra
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.DrawImage(logoRimensione, new Point(posxLogo + offsetBoxLogo, posxLogo + offsetBoxLogo));
+                graphics.Save();
+            } // chiudo using (Graphics graphics = Graphics.FromImage(bitmapZones))
 
             // se mi e' stato chiesto il bordo 
-            if(options.DrawQuietZones)
+            if (options.DrawQuietZones)
             {
                 // considero 4 blocchi come spazio di sicurezza                
                 int offset = 4 * pixelSize;
