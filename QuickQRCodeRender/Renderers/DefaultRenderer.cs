@@ -15,8 +15,6 @@ namespace QRCoder.Renderers
         // disegna il QRCode
         public Bitmap DrawQRCode(RenderMatrix matrix, RenderMatrixOptions options)
         {
-            Bitmap risultato = null;
-
             RenderParametersUtility utils = new RenderParametersUtility(matrix, options);
 
             // int blocchiPerLato = matrix.MatrixView.GetLength(0);
@@ -127,9 +125,7 @@ namespace QRCoder.Renderers
                 bitmapRisultato = Resize(bitmapZones, options.BoxSize);                
             } // chiudo if(options.DrawQuietZones)
 
-            risultato = bitmapRisultato;
-
-            return risultato;
+            return bitmapRisultato;
         } // chiudo public Bitmap DrawQRCode(RenderMatrix matrix, RenderMatrixOptions options)
 
 
