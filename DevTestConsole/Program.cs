@@ -23,9 +23,11 @@ namespace DevTestConsole
 
             RenderMatrixOptions opts = new RenderMatrixOptions();
             opts.BackgroundColor = Color.White;
+            opts.LightColor = opts.BackgroundColor;
+            opts.DarkColor = Color.Black;
             opts.DrawQuietZones = true;
             opts.Logo = imgLogo;
-            opts.FinderPatternImage = imgFinder;
+            opts.FinderPatternImage = imgFinder;            
 
             VLineConverter vlineConverter = new VLineConverter();
             RenderMatrix renderMatrix = new RenderMatrix(qrData, vlineConverter);
@@ -33,7 +35,7 @@ namespace DevTestConsole
             IDrawQRCode renderer = new VLineRender();
             Bitmap bitmapRis = renderer.DrawQRCode(renderMatrix, opts);
 
-            bitmapRis.Save(@"c:\temp\qrFabioEmy1.jpg", ImageFormat.Png);
+            bitmapRis.Save(@"c:\temp\qrTrasparent.png", ImageFormat.Png);
 
         }
     }
