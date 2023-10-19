@@ -16,7 +16,7 @@ namespace DevTestConsole
             Console.WriteLine("Hello, World!");
 
             QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
-            QRCodeData qrData = qRCodeGenerator.CreateQrCode(@"http://www.gessi.com", QRCodeGenerator.ECCLevel.L, eciMode: QRCodeGenerator.EciMode.Utf8, requestedVersion: 3);
+            QRCodeData qrData = qRCodeGenerator.CreateQrCode(@"https://www.gessi.com", QRCodeGenerator.ECCLevel.L, eciMode: QRCodeGenerator.EciMode.Utf8, requestedVersion: 3);
 
             Bitmap imgLogo = new Bitmap(@"C:\Temp\Logo.jpg");
             Bitmap imgFinder = new Bitmap(@"C:\Temp\GessiFinder.jpg");
