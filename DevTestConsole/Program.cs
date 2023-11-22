@@ -1,4 +1,4 @@
-﻿using QRCoder;
+using QRCoder;
 using QRCoder.Interfaces;
 using QRCoder.Models;
 using QRCoder.Renderers;

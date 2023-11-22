@@ -13,7 +13,7 @@ namespace QRCoder.Models
 
         // GetGraphic(int pixelsPerModule,
         public Color DarkColor { get; set; } = Color.Black;
-        public Color LightColor { get; set; } = Color.White;
+        public Color LightColor { get; set; } = Color.Transparent;
         public Color BackgroundColor { get; set; } = Color.Transparent;
         public Bitmap Logo { get; set; } = null;
         public int LogoSizePercent { get; set; } = 15;
