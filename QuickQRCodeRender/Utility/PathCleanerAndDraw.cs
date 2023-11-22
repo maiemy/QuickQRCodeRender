@@ -7,7 +7,7 @@ using System.Text;
 
 namespace QuickQRCodeRender.Utility
 {
-    public class PathCleanerAndDraw
+    internal class PathCleanerAndDraw
     {
         public void ClearLogoArea(int[,] matrix, int nrWhiteBlockSide, int logoOffset)
         {
@@ -35,7 +35,7 @@ namespace QuickQRCodeRender.Utility
             } // chiudo for( int i = 0; i < whiteBlock; i++ )
         } // chiudo private void CleanBox(int[,] matrix, int x, int y, int whiteBlock)
 
-        public Bitmap DrawLogoAndFinder(Bitmap sourceImage, RenderParametersUtility utils) {
+        public Bitmap DrawLogoAndFinder(Bitmap sourceImage, RenderParametersUtility utils, bool rotateFinder = true) {
 
             Bitmap risultato = sourceImage;
 
@@ -66,11 +66,13 @@ namespace QuickQRCodeRender.Utility
                 {
                     graphics.DrawImage(finder, new Point(utils.FinderPositionTopLeft.X * utils.SingleModulePixel, utils.FinderPositionTopLeft.Y * utils.SingleModulePixel));
 
-                    finder.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                    if(rotateFinder)
+                        finder.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
                     graphics.DrawImage(finder, new Point(utils.FinderPositionTopRight.X * utils.SingleModulePixel, utils.FinderPositionTopRight.Y * utils.SingleModulePixel));
 
-                    finder.RotateFlip(RotateFlipType.RotateNoneFlipXY);
+                    if(rotateFinder)
+                        finder.RotateFlip(RotateFlipType.RotateNoneFlipXY);
 
                     graphics.DrawImage(finder, new Point(utils.FinderPositionBottom.X * utils.SingleModulePixel, utils.FinderPositionBottom.Y * utils.SingleModulePixel));
 

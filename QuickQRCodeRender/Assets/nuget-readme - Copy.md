@@ -1,31 +1,29 @@
 ## About
 
-Libreria per la generazione di immagini QRCode personalizzabili nella forma, nei finder e nel logo centrale. Estendibile nella generazione di nuove forme grafiche
-Si basa sul calcolo della matrice di punti della libreria [**QRCoder**](https://github.com/codebude/QRCoder) di "codebude" Raffael Herrmann che ringrazio per l'ottimo lavoro.
+QRCoder is a simple library, written in C#.NET, which enables you to create QR codes. It hasn't any dependencies to other libraries and is available as .NET Framework and .NET Core PCL version on NuGet.
 
 ***
 
 ## Documentation
 
-👉 *Your first place to go should be our wiki. Here you can find a detailed documentation 
+👉 *Your first place to go should be our wiki. Here you can find a detailed documentation of the QRCoder and its functions.*
+* [**QRCode Wiki**](https://github.com/codebude/QRCoder/wiki)
+* [Creator's blog (english)](http://en.code-bude.net/2013/10/17/qrcoder-an-open-source-qr-code-generator-implementation-in-csharp/)
+* [Creator's blog (german)](http://code-bude.net/2013/10/17/qrcoder-eine-open-source-qr-code-implementierung-in-csharp/)
 
 ### Release Notes
-
+The release notes for the current and all past releases can be read here: [📄 Release Notes](https://github.com/codebude/QRCoder/wiki/Release-notes)
 
 ## Usage / Quick start
 
 You only need four lines of code, to generate and view your first QR code.
 
 ```csharp
-
-    QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
-    QRCodeData qrData = qRCodeGenerator.CreateQrCode(@"https://www.maiemyphoto.com", QRCodeGenerator.ECCLevel.L, eciMode: QRCodeGenerator.EciMode.Utf8, requestedVersion: 4);
-    RenderMatrix renderMatrix = new RenderMatrix(qrData);
-    RenderMatrixOptions opts = new RenderMatrixOptions();
-    IDrawQRCode renderer = new DefaultRenderer();
-    Bitmap bitmapRis = renderer.DrawQRCode(renderMatrix,opts);
-
-    bitmapRis.Save(@"C:\temp\QRBreak.png", ImageFormat.Png);
+using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
+using (QRCodeData qrCodeData = qrGenerator.CreateQrCode("The text which should be encoded.", QRCodeGenerator.ECCLevel.Q))
+using (QRCode qrCode = new QRCode(qrCodeData))
+{
+    Bitmap qrCodeImage = qrCode.GetGraphic(20);
 }
 ```
 
