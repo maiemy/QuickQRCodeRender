@@ -7,6 +7,8 @@ namespace QRCoder.Models
 {
     public class RenderMatrixOptions
     {
+        private int _quietZoneModules;
+
         public int BoxSize { get; set; } = 1024;
 
         // GetGraphic(int pixelsPerModule,
@@ -16,7 +18,23 @@ namespace QRCoder.Models
         public Bitmap Logo { get; set; } = null;
         public int LogoSizePercent { get; set; } = 15;
         public bool DrawQuietZones { get; set; } = true;
-        public int QuietZoneNumModules { get; set; } = 4;
+        
+        /// <summary>
+        /// Range Accepted: 0 -> 4
+        /// </summary>
+        public int QuietZoneNumModules
+        {
+            get
+            {
+                return _quietZoneModules;
+            }
+            set
+            {
+                if (value == null)
+                    _quietZoneModules = 4;
+                _quietZoneModules = value > 4 ? 4 : value;
+            }
+        }
         public Bitmap FinderPatternImage { get; set; } = null;
 
         /// <summary>

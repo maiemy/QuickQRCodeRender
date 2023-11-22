@@ -19,7 +19,7 @@ namespace QuickQRCodeRender.Utility
 
         public int BorderNumModules
         {
-            get { return _matrix.MatrixView.GetLength(0); }
+            get { return _options.DrawQuietZones ? _matrix.MatrixView.GetLength(0) : _matrix.MatrixView.GetLength(0) - _options.QuietZoneNumModules; }
         } // chiudo public int BorderNumModules
 
         public int SingleModulePixel
