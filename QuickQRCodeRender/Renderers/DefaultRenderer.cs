@@ -41,11 +41,12 @@ namespace QRCoder.Renderers
             
             // int size = blocchiPerLato * pixelSize;
             int size = utils.BorderPixel;
+            //int offset = options.DrawQuietZones ? 4 * pixelSize : 0;
             Bitmap bitmapRisultato = new Bitmap(size, size);
 
             Bitmap darkModulePixel = MakeDotPixel(pixelSize, new SolidBrush(options.DarkColor));
             Bitmap lightModulePixel = MakeDotPixel(pixelSize, new SolidBrush(options.LightColor));
-
+            
             using (Graphics graphics = Graphics.FromImage(bitmapRisultato))
             {
                 using (SolidBrush lightBrush = new SolidBrush(options.LightColor))
@@ -72,29 +73,29 @@ namespace QRCoder.Renderers
             } // chiudo using (var graphics = Graphics.FromImage(bitmap))
 
             // qui inseriamo le immagini
-            pathCleaner.DrawLogoAndFinder(bitmapRisultato, utils);
+            pathCleaner.DrawLogoAndFinder(bitmapRisultato, utils, options.RotateFinderImage);
 
             // se mi e' stato chiesto il bordo 
-            if (options.DrawQuietZones)
-            {
-                // considero 4 blocchi come spazio di sicurezza                
-                int offset = 4 * pixelSize;
-                int qSize = size + (offset * 2);
-                Bitmap bitmapZones = new Bitmap(qSize, qSize);
+            //if (options.DrawQuietZones)
+            //{
+            //    int offset = 4 * pixelSize;
+            //    // considero 4 blocchi come spazio di sicurezza                
+            //    int qSize = size + (offset * 2);
+            //    Bitmap bitmapZones = new Bitmap(qSize, qSize);
 
-                using (Graphics graphics = Graphics.FromImage(bitmapZones))
-                {
-                    // disegno il rettangolo del background
-                    using (var brush = new SolidBrush(options.BackgroundColor))
-                        graphics.FillRectangle(brush, new Rectangle(0, 0, qSize, qSize));
+            //    using (Graphics graphics = Graphics.FromImage(bitmapZones))
+            //    {
+            //        // disegno il rettangolo del background
+            //        using (var brush = new SolidBrush(options.BackgroundColor))
+            //            graphics.FillRectangle(brush, new Rectangle(0, 0, qSize, qSize));
 
-                    // gli disegno dentro il qr creato sopra
-                    graphics.DrawImage(bitmapRisultato, new Point(offset, offset));
-                    graphics.Save();
-                } // chiudo using (Graphics graphics = Graphics.FromImage(bitmapZones))                
-                // ridimensiono alla richiesta delle opzioni.
-                bitmapRisultato = pathCleaner.Resize(bitmapZones, options.BoxSize);                
-            } // chiudo if(options.DrawQuietZones)
+            //        // gli disegno dentro il qr creato sopra
+            //        graphics.DrawImage(bitmapRisultato, new Point(offset, offset));
+            //        graphics.Save();
+            //    } // chiudo using (Graphics graphics = Graphics.FromImage(bitmapZones))                
+            //    // ridimensiono alla richiesta delle opzioni.
+            //    bitmapRisultato = pathCleaner.Resize(bitmapZones, options.BoxSize);                
+            //} // chiudo if(options.DrawQuietZones)
 
             return bitmapRisultato;
         } // chiudo public Bitmap DrawQRCode(RenderMatrix matrix, RenderMatrixOptions options)

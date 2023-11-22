@@ -73,29 +73,29 @@ namespace QuickQRCodeRender.Renderers
             } // chiudo using (var graphics = Graphics.FromImage(bitmap))
 
             // qui inseriamo le immagini
-            pathCleaner.DrawLogoAndFinder(bitmapRisultato, utils);
+            pathCleaner.DrawLogoAndFinder(bitmapRisultato, utils, options.RotateFinderImage);
 
             // se mi e' stato chiesto il bordo 
-            if (options.DrawQuietZones)
-            {
-                // considero 4 blocchi come spazio di sicurezza                
-                int offset = 4 * pixelSize;
-                int qSize = size + (offset * 2);
-                Bitmap bitmapZones = new Bitmap(qSize, qSize);
+            //if (options.DrawQuietZones)
+            //{
+            //    // considero 4 blocchi come spazio di sicurezza                
+            //    int offset = 4 * pixelSize;
+            //    int qSize = size + (offset * 2);
+            //    Bitmap bitmapZones = new Bitmap(qSize, qSize);
 
-                using (Graphics graphics = Graphics.FromImage(bitmapZones))
-                {
-                    // disegno il rettangolo del background
-                    using (var brush = new SolidBrush(options.BackgroundColor))
-                        graphics.FillRectangle(brush, new Rectangle(0, 0, qSize, qSize));
+            //    using (Graphics graphics = Graphics.FromImage(bitmapZones))
+            //    {
+            //        // disegno il rettangolo del background
+            //        using (var brush = new SolidBrush(options.BackgroundColor))
+            //            graphics.FillRectangle(brush, new Rectangle(0, 0, qSize, qSize));
 
-                    // gli disegno dentro il qr creato sopra
-                    graphics.DrawImage(bitmapRisultato, new Point(offset, offset));
-                    graphics.Save();
-                } // chiudo using (Graphics graphics = Graphics.FromImage(bitmapZones))                
-                // ridimensiono alla richiesta delle opzioni.
-                bitmapRisultato = pathCleaner.Resize(bitmapZones, options.BoxSize);
-            } // chiudo if(options.DrawQuietZones)
+            //        // gli disegno dentro il qr creato sopra
+            //        graphics.DrawImage(bitmapRisultato, new Point(offset, offset));
+            //        graphics.Save();
+            //    } // chiudo using (Graphics graphics = Graphics.FromImage(bitmapZones))                
+            //    // ridimensiono alla richiesta delle opzioni.
+            //    bitmapRisultato = pathCleaner.Resize(bitmapZones, options.BoxSize);
+            //} // chiudo if(options.DrawQuietZones)
 
             return bitmapRisultato;
         } // chiudo public Bitmap DrawQRCode(RenderMatrix matrix, RenderMatrixOptions options)
