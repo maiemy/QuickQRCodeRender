@@ -19,7 +19,7 @@ namespace QuickQRCodeRender.MatrixConverters
 
         public int[,] ToMatrixView(QRCodeData qrData)
         {
-            // la matrice ha la stessa dimensione della matrice di partenza sul qrData
+            // la matrice ha la stessa dimensione della matrice di partenza sul qrData 
             int[,] risultato = new int[qrData.ModuleMatrix.Count, qrData.ModuleMatrix.Count];
 
             for (int x = 0; x < qrData.ModuleMatrix.Count; x++)
