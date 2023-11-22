@@ -6,6 +6,7 @@ using QuickQRCodeRender.MatrixConverters;
 using QuickQRCodeRender.Renderers;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Net.NetworkInformation;
 
 namespace DevTestConsole
 {
@@ -18,19 +19,23 @@ namespace DevTestConsole
             QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
             QRCodeData qrData = qRCodeGenerator.CreateQrCode(@"https://www.gessi.com", QRCodeGenerator.ECCLevel.L, eciMode: QRCodeGenerator.EciMode.Utf8, requestedVersion: 3);
 
-            Bitmap imgLogo = new Bitmap(@"C:\Fabio\QRCode\Logo.jpg");
-            Bitmap imgFinder = new Bitmap(@"C:\Fabio\QRCode\GessiFinder.jpg");
-            Bitmap imgFantasy = new Bitmap(@"C:\Fabio\QRCode\s-l1600.jpg");
+            Bitmap imgLogo = new Bitmap(@"C:\temp\Logo.jpg");
+            Bitmap imgFinder = new Bitmap(@"C:\temp\boxfinder.jpg");
+            Bitmap imgFantasy = new Bitmap(@"C:\temp\GessiFinder2.jpg");
 
 
             RenderMatrixOptions opts = new RenderMatrixOptions();
 
             opts.BackgroundColor = Color.White;
+            opts.LightColor = Color.White;
+            opts.DarkColor = Color.Black;
             opts.DrawQuietZones = true;
             opts.Logo = imgLogo;
             opts.FinderPatternImage = imgFinder;
+            opts.FantasyRenderImage = imgFantasy;
+            
 
-            //IConvertToMatrixView converter = new VLineConverter();
+            IConvertToMatrixView converter = new VLineConverter();
             RenderMatrix renderMatrix = new RenderMatrix(qrData);
 
             IDrawQRCode renderer = new FantasyRenderer();
