@@ -18,24 +18,25 @@ namespace DevTestConsole
             QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
             QRCodeData qrData = qRCodeGenerator.CreateQrCode(@"https://www.gessi.com", QRCodeGenerator.ECCLevel.L, eciMode: QRCodeGenerator.EciMode.Utf8, requestedVersion: 3);
 
-            Bitmap imgLogo = new Bitmap(@"C:\Temp\Logo.jpg");
-            Bitmap imgFinder = new Bitmap(@"C:\Temp\GessiFinder.jpg");
+            Bitmap imgLogo = new Bitmap(@"C:\Fabio\QRCode\Logo.jpg");
+            Bitmap imgFinder = new Bitmap(@"C:\Fabio\QRCode\GessiFinder.jpg");
+            Bitmap imgFantasy = new Bitmap(@"C:\Fabio\QRCode\s-l1600.jpg");
+
 
             RenderMatrixOptions opts = new RenderMatrixOptions();
+
             opts.BackgroundColor = Color.White;
-            opts.LightColor = opts.BackgroundColor;
-            opts.DarkColor = Color.Black;
             opts.DrawQuietZones = true;
             opts.Logo = imgLogo;
-            opts.FinderPatternImage = imgFinder;            
+            opts.FinderPatternImage = imgFinder;
 
-            VLineConverter vlineConverter = new VLineConverter();
-            RenderMatrix renderMatrix = new RenderMatrix(qrData, vlineConverter);
+            //IConvertToMatrixView converter = new VLineConverter();
+            RenderMatrix renderMatrix = new RenderMatrix(qrData);
 
-            IDrawQRCode renderer = new VLineRender();
+            IDrawQRCode renderer = new FantasyRenderer();
             Bitmap bitmapRis = renderer.DrawQRCode(renderMatrix, opts);
 
-            bitmapRis.Save(@"c:\temp\qrTrasparent.png", ImageFormat.Png);
+            bitmapRis.Save(@"c:\temp\qrFabioEmy1.jpg", ImageFormat.Png);
 
         }
     }

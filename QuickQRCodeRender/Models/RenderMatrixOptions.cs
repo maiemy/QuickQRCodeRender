@@ -19,6 +19,12 @@ namespace QRCoder.Models
         public int QuietZoneNumModules { get; set; } = 4;
         public Bitmap FinderPatternImage { get; set; } = null;
 
+        /// <summary>
+        /// Da utilizzare con il fantasy renderer per impostare un'immagine da inserire in ogni blocco del QR Code
+        /// </summary>
+        public Bitmap FantasyRenderImage { get; set; } = null;
+        public bool RotateFinderImage { get; set; } = true;
+
         public RenderMatrixOptions()
         {            
         } // chiudo public RenderMatrixOptions()
